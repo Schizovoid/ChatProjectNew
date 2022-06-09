@@ -82,7 +82,6 @@ public class Client  {
     public void mockAction(ActionEvent actionEvent) {
         System.out.println("mock");
     }
-
     public void closeApplication(ActionEvent actionEvent) {
         Platform.exit();
     }
@@ -98,7 +97,7 @@ public class Client  {
     public void tryToAuth () {
         connect();
         try {
-            out.writeUTF("/auth" + usernameField.getText());
+            out.writeUTF(usernameField.getText());
             usernameField.clear();
         } catch (IOException e) {
             e.printStackTrace();

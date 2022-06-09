@@ -34,7 +34,7 @@
             </VBox.margin>
         </HBox>
         <HBox fx:id="authPanel">
-            <TextField promptText="Please input your username starting with /auth" fx:id="usernameField" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" onAction="#tryToAuth"/>
+            <TextField promptText="Please input your username starting with /auth and press Join" fx:id="usernameField" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" onAction="#tryToAuth"/>
             <Button onAction="#tryToAuth">Join</Button>
             <HBox.margin>
                 <Insets left="6.0" right="6.0" />
