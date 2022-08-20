@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Clientside.Client"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Clientside.Client">
     <VBox fx:id="main" visible="true">
         <MenuBar>
             <Menu text="App">
-                <MenuItem onAction="#mockAction" text="Open" />
                 <MenuItem onAction="#closeApplication" text="Close" />
             </Menu>
         </MenuBar>
@@ -34,7 +27,7 @@
             </VBox.margin>
         </HBox>
         <HBox fx:id="authPanel">
-            <TextField promptText="Please input your username starting with /auth and press Join" fx:id="usernameField" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" onAction="#tryToAuth"/>
+            <TextField fx:id="usernameField" onAction="#tryToAuth" promptText="Please input your username starting with /auth and press Join" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
             <Button onAction="#tryToAuth">Join</Button>
             <HBox.margin>
                 <Insets left="6.0" right="6.0" />
@@ -43,13 +36,13 @@
                 <Insets bottom="5.0" />
             </VBox.margin>
         </HBox>
-        <HBox fx:id="msgPanel" VBox.vgrow="ALWAYS" visible="false" managed="false">
-            <TextField promptText="Message" fx:id="userMessage" onAction="#sendMessage" prefHeight="65.0" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <HBox fx:id="msgPanel" managed="false" visible="false" VBox.vgrow="ALWAYS">
+            <TextField fx:id="userMessage" onAction="#sendMessage" promptText="Message" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <HBox.margin>
                     <Insets left="6.0" right="6.0" />
                 </HBox.margin>
             </TextField>
-            <Button fx:id="btnSend" minWidth="150.0" onAction="#sendMessage" prefHeight="65.0" text="SEND">
+            <Button fx:id="btnSend" onAction="#sendMessage" text="SEND">
                 <HBox.margin>
                     <Insets left="6.0" right="6.0" />
                 </HBox.margin>

@@ -6,8 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ClientHandler {
     private Server server;
@@ -32,10 +31,11 @@ public class ClientHandler {
                         runActivityCheck();
                         if (incoming.startsWith("/auth")){
                             userName = incoming.split("\\s+")[1];
-                            sendMessage("/authOK " + userName);
-                            sendMessage("You have entered with the name: " + userName);
-                            this.userIsAuthorised = true;
-                            break;
+                                sendMessage("/authOK " + userName);
+                                server.broadcastMsg(userName + " has joined the conversation!");
+                                sendMessage("You have entered with the name: " + userName);
+                                this.userIsAuthorised = true;
+                                break;
                         } else {
                             sendMessage("Please authorise using /auth");
                         }
@@ -87,6 +87,7 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.userIsAuthorised = false;
     }
     public void runActivityCheck () {
                 TimerTask task = new TimerTask() {
@@ -100,6 +101,6 @@ public class ClientHandler {
                     }
                 };
                 Timer timer = new Timer();
-                timer.schedule(task, 12000);
+                timer.schedule(task, 180000);
             }
     }
