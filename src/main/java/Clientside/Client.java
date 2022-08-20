@@ -1,9 +1,9 @@
 package Clientside;
 
+import Serverside.ClientHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,8 +12,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class Client  {
@@ -22,8 +20,9 @@ public class Client  {
     private DataOutputStream out;
     private DataInputStream in;
     private Socket socket;
+    private String chosenUser = "default";
     @FXML
-    public ListView<String> contacts;
+    public static ListView <String> contacts = new ListView<>();
     @FXML
     private VBox main;
     @FXML
@@ -34,11 +33,6 @@ public class Client  {
     private Button btnSend;
     @FXML
     private HBox authPanel, msgPanel;
-
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//
-//    }
 
     public void connect () {
         if (socket != null && !socket.isClosed()) {
