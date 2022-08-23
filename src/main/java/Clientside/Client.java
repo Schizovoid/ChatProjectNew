@@ -27,7 +27,7 @@ public class Client  {
     @FXML
     private VBox main;
     @FXML
-    private TextField userMessage, usernameField;
+    private TextField userMessage, usernameField, passwordField;
     @FXML
     private TextArea chatArea;
     @FXML
@@ -35,10 +35,6 @@ public class Client  {
     @FXML
     private HBox authPanel, msgPanel;
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//
-//    }
 
     public void connect () {
         if (socket != null && !socket.isClosed()) {
@@ -88,7 +84,7 @@ public class Client  {
 
     public void sendMessage(ActionEvent actionEvent) {
         try {
-                out.writeUTF(userMessage.getText());
+            out.writeUTF(userMessage.getText());
                 userMessage.clear();
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,8 +93,10 @@ public class Client  {
     public void tryToAuth () {
         connect();
         try {
-            out.writeUTF(usernameField.getText());
+            out.writeUTF("/auth " + usernameField.getText());
             usernameField.clear();
+            out.writeUTF("/pswd " + passwordField.getText());
+            passwordField.clear();
         } catch (IOException e) {
             e.printStackTrace();
             showError("Could not send an authorization request.");

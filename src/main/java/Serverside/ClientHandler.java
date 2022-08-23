@@ -1,11 +1,11 @@
 package Serverside;
 
-import Clientside.Client;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,8 +14,8 @@ public class ClientHandler {
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
-    private String userName;
-    private Client client;
+    private String userName = "blank";
+    private String password = "blank";
     private boolean userIsAuthorised = false;
 
     public ClientHandler (Server server, Socket socket) {
@@ -32,12 +32,16 @@ public class ClientHandler {
                         runActivityCheck();
                         if (incoming.startsWith("/auth")){
                             userName = incoming.split("\\s+")[1];
+                        } else if (incoming.startsWith("/pswd")) {
+                            password = incoming.split("\\s+")[1];
+                        }
+
+                        if (!Objects.equals(userName, "blank") && !Objects.equals(password, "blank")) {
+                           server.sqlAddUser(userName, password);
                             sendMessage("/authOK " + userName);
-                            sendMessage("You have entered with the name: " + userName);
+                            server.broadcastMsg(userName + " joins the chat!");
                             this.userIsAuthorised = true;
                             break;
-                        } else {
-                            sendMessage("Please authorise using /auth");
                         }
                     }
                     while (true) {
@@ -47,7 +51,7 @@ public class ClientHandler {
                         }
                         server.broadcastMsg(userName + ": " + incoming);
                     }
-                } catch (IOException e){
+                } catch (IOException | SQLException e){
                     e.printStackTrace();
                 }
             }).start();
@@ -100,6 +104,6 @@ public class ClientHandler {
                     }
                 };
                 Timer timer = new Timer();
-                timer.schedule(task, 12000);
+                timer.schedule(task, 180000);
             }
     }
