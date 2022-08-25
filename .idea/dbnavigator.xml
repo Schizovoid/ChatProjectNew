@@ -28,15 +28,15 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="567c9048-c0e8-4477-b65a-771bc7bcb21b">
-      <console name="connection" type="STANDARD" schema="main" session="Main" />
+    <connection id="5e0801fd-6035-4392-865c-0a3929346702">
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="567c9048-c0e8-4477-b65a-771bc7bcb21b" />
+    <connection id="5e0801fd-6035-4392-865c-0a3929346702" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -45,7 +45,7 @@
     <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/authUsers.db" connection-id="567c9048-c0e8-4477-b65a-771bc7bcb21b" session-id="MAIN" current-schema="" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/authUsers.db" connection-id="5e0801fd-6035-4392-865c-0a3929346702" session-id="MAIN" current-schema="" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -70,13 +70,13 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="567c9048-c0e8-4477-b65a-771bc7bcb21b" active="true" signed="true">
+      <connection id="5e0801fd-6035-4392-865c-0a3929346702" active="true" signed="true">
         <database>
-          <name value="connection" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="3.39" />
+          <database-version value="9999.0" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
@@ -86,6 +86,7 @@
           <database value="" />
           <files>
             <file path="sqlite.db" schema="main" />
+            <file path="C:\Users\User\ChatProjectNew\src\main\resources\authUsers.db" schema="authUsers" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -98,8 +99,8 @@
           <active value="true" />
           <proxy-host value="localhost" />
           <proxy-port value="22" />
-          <proxy-user value="" />
-          <deprecated-proxy-pwd value="" />
+          <proxy-user value="User" />
+          <deprecated-proxy-pwd value="MTIzNDU=" />
           <auth-type value="PASSWORD" />
           <key-file value="" />
           <key-passphrase value="" />

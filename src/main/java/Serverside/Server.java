@@ -5,10 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +28,6 @@ public class Server {
                             Socket socket = serverSocket.accept();
                             System.out.println("Client connected!");
                             ClientHandler c = new ClientHandler(this, socket);
-                            //Здесь добавляю логику хранения логинов и паролей в БД
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -68,9 +64,17 @@ public class Server {
                 " );");
     }
     static void sqlAddUser(String userName, String password) throws SQLException {
-        stmt.executeUpdate(String.format("INSERT INTO Users (username, password)\n" +
-                "VALUES (%s, %s)", userName, password));
+                stmt.executeUpdate(String.format("INSERT INTO Users (username, password)\n" +
+                "VALUES ('%s', '%s')", userName, password));
     }
+        boolean isLoginUsed (String userName) throws SQLException {
+            ResultSet rs = stmt.executeQuery(String.format("SELECT username FROM Users WHERE username LIKE ('%s')", userName));
+            return rs.isBeforeFirst();
+        }
+        boolean isPasswordCorrect (String userName, String password) throws SQLException {
+            ResultSet rs = stmt.executeQuery(String.format("SELECT password FROM Users WHERE username LIKE ('%s')", userName));
+            return rs.getString(1).equals(password);
+        }
 
     public static void sqlDisconnect() {
         try {

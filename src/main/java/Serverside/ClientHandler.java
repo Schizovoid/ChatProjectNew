@@ -36,22 +36,31 @@ public class ClientHandler {
                             password = incoming.split("\\s+")[1];
                         }
 
-                        if (!Objects.equals(userName, "blank") && !Objects.equals(password, "blank")) {
-                           server.sqlAddUser(userName, password);
-                            sendMessage("/authOK " + userName);
-                            server.broadcastMsg(userName + " joins the chat!");
-                            this.userIsAuthorised = true;
-                            break;
+                        if (!userName.equals("blank") && !password.equals("blank")) {
+                            if (!server.isLoginUsed(userName)) {
+                                Server.sqlAddUser(userName, password);
+                                sendMessage("/authOK " + userName);
+                                server.broadcastMsg(userName + " joins the chat for the first time");
+                                this.userIsAuthorised = true;
+                                break;
+                            } else if (server.isPasswordCorrect(userName, password)) {
+                                sendMessage("/authOK " + userName);
+                                server.broadcastMsg(userName + " joins the chat");
+                                this.userIsAuthorised = true;
+                                break;
+                            }
+                        } else {
+                            sendMessage("The username and the password you provided don't seem to match.");
                         }
                     }
                     while (true) {
                         String incoming = in.readUTF();
+                        server.broadcastMsg(userName + ": " + incoming);
                         if (incoming.startsWith("/")) {
                             continue;
                         }
-                        server.broadcastMsg(userName + ": " + incoming);
                     }
-                } catch (IOException | SQLException e){
+                } catch (SQLException | IOException e){
                     e.printStackTrace();
                 }
             }).start();
