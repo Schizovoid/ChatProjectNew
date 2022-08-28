@@ -8,11 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 
@@ -22,6 +22,8 @@ public class Client  {
     private DataOutputStream out;
     private DataInputStream in;
     private Socket socket;
+    public static Path chatLog = Path.of("src/main/resources/ChatLog");
+    public static File Log = chatLog.toFile();
     @FXML
     public ListView<String> contacts;
     @FXML
@@ -44,6 +46,7 @@ public class Client  {
             Socket socket = new Socket(host, port);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
+            chatLogCreation();
             Thread listen = new Thread() {
                 @Override
                 public void run() {
@@ -59,8 +62,10 @@ public class Client  {
                             }
                             chatArea.appendText(incoming + "\n");
                         }
+                        updateChat();
                         while (true) {
                             String incoming = in.readUTF();
+                            LogMessage(incoming);
                             chatArea.appendText(incoming + "\n");
                         }
                     } catch(IOException e){
@@ -102,6 +107,35 @@ public class Client  {
             showError("Could not send an authorization request.");
         }
     }
+    public static void chatLogCreation () {
+        try {
+            if (!Log.exists()) {
+                Files.createFile(Path.of("src/main/resources/ChatLog"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateChat () {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/ChatLog"))) {
+            String str;
+            while ((str = reader.readLine()) != null) {
+                chatArea.appendText(str + "\n");
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void LogMessage (String msg) {
+        try (BufferedWriter writer = new BufferedWriter(new
+                FileWriter("src/main/resources/ChatLog", true))) {
+                writer.write(msg + "\n");
+                writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+}
     public void showError (String msg) {
         new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK).showAndWait();
     }

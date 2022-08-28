@@ -1,5 +1,7 @@
 package Serverside;
 
+import Clientside.Client;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -48,9 +50,9 @@ public class ClientHandler {
                                 server.broadcastMsg(userName + " joins the chat");
                                 this.userIsAuthorised = true;
                                 break;
+                            } else {
+                                sendMessage("The username and the password you provided don't seem to match.");
                             }
-                        } else {
-                            sendMessage("The username and the password you provided don't seem to match.");
                         }
                     }
                     while (true) {
