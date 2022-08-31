@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     public static final int port = 8189;
@@ -22,7 +24,8 @@ public class Server {
             System.out.println("Server started!");
             sqlConnect();
             createTable();
-                new Thread(() -> {
+            ExecutorService serverES = Executors.newFixedThreadPool(3);
+                serverES.execute(() -> {
                     try {
                         while (true) {
                             Socket socket = serverSocket.accept();
@@ -33,8 +36,9 @@ public class Server {
                         e.printStackTrace();
                     } finally {
                         sqlDisconnect();
+                        serverES.shutdown();
                     }
-                }).start();
+                });
 
         } catch (IOException | SQLException | ClassNotFoundException e){
             e.printStackTrace();

@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
     private Server server;
@@ -26,7 +28,8 @@ public class ClientHandler {
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
-            new Thread(() -> {
+            ExecutorService handlerES = Executors.newFixedThreadPool(3);
+            handlerES.execute(() -> {
                 try {
                     server.Subscribe(this);
                     while (true) {
@@ -64,8 +67,10 @@ public class ClientHandler {
                     }
                 } catch (SQLException | IOException e){
                     e.printStackTrace();
+                } finally {
+                    handlerES.shutdown();
                 }
-            }).start();
+            });
         } catch (IOException e ) {
             e.printStackTrace();
         } finally {
