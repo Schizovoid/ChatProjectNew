@@ -27,8 +27,10 @@
             </VBox.margin>
         </HBox>
         <HBox fx:id="authPanel">
-            <TextField fx:id="usernameField" onAction="#tryToAuth" promptText="Please input your username starting with /auth and press Join" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
-            <Button onAction="#tryToAuth">Join</Button>
+            <TextField fx:id="usernameField" onAction="#tryToAuth" promptText="Please input your username" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+            <TextField fx:id="passwordField" onAction="#tryToAuth" promptText="Please input your password and press Join" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+            <Button onAction="#tryToAuth" HBox.hgrow="ALWAYS">Join</Button>
+
             <HBox.margin>
                 <Insets left="6.0" right="6.0" />
             </HBox.margin>
@@ -42,7 +44,8 @@
                     <Insets left="6.0" right="6.0" />
                 </HBox.margin>
             </TextField>
-            <Button fx:id="btnSend" onAction="#sendMessage" text="SEND">
+            <Button fx:id="btnSend" onAction="#sendMessage" text="SEND" HBox.hgrow="ALWAYS">
+
                 <HBox.margin>
                     <Insets left="6.0" right="6.0" />
                 </HBox.margin>

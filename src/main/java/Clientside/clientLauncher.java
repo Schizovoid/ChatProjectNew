@@ -1,10 +1,7 @@
 package Clientside;
 
-import Clientside.Application;
-import Serverside.Server;
 
-
-public class Launcher {
+public class clientLauncher {
     public static void main(String[] args) {
         Application.run(args);
     }

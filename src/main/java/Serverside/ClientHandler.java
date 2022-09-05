@@ -6,15 +6,20 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
     private Server server;
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
-    private String userName;
-    private Client client;
+    private String userName = "blank";
+    private String password = "blank";
     private boolean userIsAuthorised = false;
 
     public ClientHandler (Server server, Socket socket) {
@@ -23,7 +28,8 @@ public class ClientHandler {
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
-            new Thread(() -> {
+            ExecutorService handlerES = Executors.newFixedThreadPool(3);
+            handlerES.execute(() -> {
                 try {
                     server.Subscribe(this);
                     while (true) {
@@ -31,26 +37,40 @@ public class ClientHandler {
                         runActivityCheck();
                         if (incoming.startsWith("/auth")){
                             userName = incoming.split("\\s+")[1];
+                        } else if (incoming.startsWith("/pswd")) {
+                            password = incoming.split("\\s+")[1];
+                        }
+
+                        if (!userName.equals("blank") && !password.equals("blank")) {
+                            if (!server.isLoginUsed(userName)) {
+                                Server.sqlAddUser(userName, password);
                                 sendMessage("/authOK " + userName);
-                                server.broadcastMsg(userName + " has joined the conversation!");
-                                sendMessage("You have entered with the name: " + userName);
+                                server.broadcastMsg(userName + " joins the chat for the first time");
                                 this.userIsAuthorised = true;
                                 break;
-                        } else {
-                            sendMessage("Please authorise using /auth");
+                            } else if (server.isPasswordCorrect(userName, password)) {
+                                sendMessage("/authOK " + userName);
+                                server.broadcastMsg(userName + " joins the chat");
+                                this.userIsAuthorised = true;
+                                break;
+                            } else {
+                                sendMessage("The username and the password you provided don't seem to match.");
+                            }
                         }
                     }
                     while (true) {
                         String incoming = in.readUTF();
+                        server.broadcastMsg(userName + ": " + incoming);
                         if (incoming.startsWith("/")) {
                             continue;
                         }
-                        server.broadcastMsg(userName + ": " + incoming);
                     }
-                } catch (IOException e){
+                } catch (SQLException | IOException e){
                     e.printStackTrace();
+                } finally {
+                    handlerES.shutdown();
                 }
-            }).start();
+            });
         } catch (IOException e ) {
             e.printStackTrace();
         } finally {
