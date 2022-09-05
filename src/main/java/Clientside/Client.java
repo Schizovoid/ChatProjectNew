@@ -1,9 +1,9 @@
 package Clientside;
 
+import Serverside.ClientHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 
+
 public class Client  {
     public static final int port = 8189;
     public static final String host = "localhost";
@@ -25,7 +26,7 @@ public class Client  {
     public static Path chatLog = Path.of("src/main/resources/ChatLog");
     public static File Log = chatLog.toFile();
     @FXML
-    public ListView<String> contacts;
+    public static ListView <String> contacts = new ListView<>();
     @FXML
     private VBox main;
     @FXML
@@ -36,7 +37,6 @@ public class Client  {
     private Button btnSend;
     @FXML
     private HBox authPanel, msgPanel;
-
 
     public void connect () {
         if (socket != null && !socket.isClosed()) {

@@ -8,7 +8,6 @@
     <VBox fx:id="main" visible="true">
         <MenuBar>
             <Menu text="App">
-                <MenuItem onAction="#mockAction" text="Open" />
                 <MenuItem onAction="#closeApplication" text="Close" />
             </Menu>
         </MenuBar>
@@ -31,6 +30,7 @@
             <TextField fx:id="usernameField" onAction="#tryToAuth" promptText="Please input your username" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
             <TextField fx:id="passwordField" onAction="#tryToAuth" promptText="Please input your password and press Join" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
             <Button onAction="#tryToAuth" HBox.hgrow="ALWAYS">Join</Button>
+
             <HBox.margin>
                 <Insets left="6.0" right="6.0" />
             </HBox.margin>
@@ -45,6 +45,7 @@
                 </HBox.margin>
             </TextField>
             <Button fx:id="btnSend" onAction="#sendMessage" text="SEND" HBox.hgrow="ALWAYS">
+
                 <HBox.margin>
                     <Insets left="6.0" right="6.0" />
                 </HBox.margin>

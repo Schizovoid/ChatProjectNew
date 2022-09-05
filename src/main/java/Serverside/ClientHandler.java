@@ -107,6 +107,7 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.userIsAuthorised = false;
     }
     public void runActivityCheck () {
                 TimerTask task = new TimerTask() {
