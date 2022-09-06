@@ -1,6 +1,5 @@
 package Clientside;
 
-import Serverside.ClientHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +9,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ResourceBundle;
 
 
 
