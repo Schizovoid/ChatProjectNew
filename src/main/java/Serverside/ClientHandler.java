@@ -1,13 +1,10 @@
 package Serverside;
 
-import Clientside.Client;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -47,11 +44,13 @@ public class ClientHandler {
                                 sendMessage("/authOK " + userName);
                                 server.broadcastMsg(userName + " joins the chat for the first time");
                                 this.userIsAuthorised = true;
+                                Server.logger.info("Client connected!");
                                 break;
                             } else if (server.isPasswordCorrect(userName, password)) {
                                 sendMessage("/authOK " + userName);
                                 server.broadcastMsg(userName + " joins the chat");
                                 this.userIsAuthorised = true;
+                                Server.logger.info("Client connected!");
                                 break;
                             } else {
                                 sendMessage("The username and the password you provided don't seem to match.");
@@ -108,6 +107,7 @@ public class ClientHandler {
             e.printStackTrace();
         }
         this.userIsAuthorised = false;
+        Server.logger.info("Client disconnected!");
     }
     public void runActivityCheck () {
                 TimerTask task = new TimerTask() {

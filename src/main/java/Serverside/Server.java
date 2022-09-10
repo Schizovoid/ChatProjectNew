@@ -1,7 +1,5 @@
 package Serverside;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,18 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Server {
     public static final int port = 8189;
     private List<ClientHandler> clients;
     private static Connection connection;
     private static Statement stmt;
-
-    public Server() {
+    static Logger logger = Logger.getLogger(Server.class.getName());
+public Server() {
         try {
             this.clients = new ArrayList<>();
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server started!");
+            logger.info("Server started!");
             sqlConnect();
             createTable();
             ExecutorService serverES = Executors.newFixedThreadPool(3);
@@ -29,7 +28,7 @@ public class Server {
                     try {
                         while (true) {
                             Socket socket = serverSocket.accept();
-                            System.out.println("Client connected!");
+                            logger.info("Client attempts to connect!");
                             ClientHandler c = new ClientHandler(this, socket);
                         }
                     } catch (IOException e) {
@@ -42,7 +41,7 @@ public class Server {
 
         } catch (IOException | SQLException | ClassNotFoundException e){
             e.printStackTrace();
-            System.out.println("Something went wrong Server-side!");
+            logger.severe("Something went wrong Server-side!");
         }
     }
     public void Subscribe (ClientHandler c){
